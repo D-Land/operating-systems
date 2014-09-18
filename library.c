@@ -4,10 +4,13 @@
 #include <sys/ioctl.h>
 #include <linux/fb.h>
 #include <fcntl.h>
+#include <sgtty.h>
+#include <termios.h>
 
 #include <stdio.h>
 
 typedef unsigned short color_t;
+struct termios original;
 
 void init_graphics(){
   int fd;
@@ -27,11 +30,34 @@ void init_graphics(){
   
   addr = mmap(NULL, length, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
   
+  
+  
   printf("\n%d\n", sizeof(short));
+
+}
+
+void disable_echo(){
+  struct termios disabled;
+  
+  ioctl(0, TCGETS, &original);
+  
+  disabled = original;
+  disabled.c_lflag &= ~ECHO;
+  disabled.c_lflag &= ~ICANON;
+  
+  ioctl(0, TCSETS, &disabled);
+}
+
+void enable_echo(){
+  ioctl(0, TCSETS, &original);
 }
 
 int main(){
+  char str [80];
 
   init_graphics();
+  disable_echo();
+  scanf("%s", str);
+  enable_echo();
 
 }
