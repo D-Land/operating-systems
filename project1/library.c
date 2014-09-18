@@ -48,11 +48,7 @@ void enable_echo(){
 }
 
 int main(){
-  char str [80];
-
   init_graphics();
   disable_echo();
-  scanf("%s", str);
   enable_echo();
-
 }
