@@ -94,7 +94,8 @@ int main(int argc, char* argv[]){
   while(1){
     str = get_key();
     if(str != ' '){
-      printf("%s",str);
+      printf("\n%s\n",str);
+      printf("\n%s\n", "HERE")
       str = ' ';
     }
     if(str == 'q'){
