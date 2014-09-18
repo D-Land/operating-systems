@@ -17,34 +17,29 @@ void init_graphics(){
   unsigned int length;
   char *addr;
   char *pathname = "/dev/fb0";
-  
+
   struct fb_var_screeninfo *res_info;
   struct fb_fix_screeninfo *bit_depth;
-  
+
   fd = open(pathname, O_RDWR);
-  
+
   ioctl(fd, FBIOGET_VSCREENINFO, res_info);
   ioctl(fd, FBIOGET_FSCREENINFO, bit_depth);
-  
-  length = res_info->yres_virtual * bit_depth->line_length;
-  
-  addr = mmap(NULL, length, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
-  
-  
-  
-  printf("\n%d\n", sizeof(short));
 
+  length = res_info->yres_virtual * bit_depth->line_length;
+
+  addr = mmap(NULL, length, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
 }
 
 void disable_echo(){
   struct termios disabled;
-  
+
   ioctl(0, TCGETS, &original);
-  
+
   disabled = original;
   disabled.c_lflag &= ~ECHO;
   disabled.c_lflag &= ~ICANON;
-  
+
   ioctl(0, TCSETS, &disabled);
 }
 
