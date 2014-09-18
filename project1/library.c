@@ -91,6 +91,9 @@ int main(int argc, char* argv[]){
   char str = 'l';
 
   init_graphics();
-  printf("%c", str);
+  if(str == 'l'){
+    printf("\n%s\n", "ITS L")
+  }
+  printf("\n%c\n", str);
   exit_graphics();
 }
