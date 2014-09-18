@@ -47,14 +47,19 @@ void enable_echo(){
   ioctl(0, TCSETS, &original);
 }
 
-int main(){
-  char str[80];
+int main(int argc, char* argv[]){
+  char password[500];
 
-  init_graphics();
+  /* init_graphics(); */
   disable_echo();
 
   printf("\n Enter your password: \n");
-  scanf("%s", &str);
+  scanf("%s", &password);
+  printf("\nYour Password: %s\n", password);
 
   enable_echo();
+
+  printf("\n Enter your password: \n");
+  scanf("%s", &password);
+  printf("\nYour Password: %s\n", password);
 }
