@@ -34,6 +34,8 @@ void enable_echo(){
   ioctl(0, TCSETS, &original_terminal_settings);
 }
 
+// - Required Functions --------------------------------------------------------
+
 void init_graphics(){
   char *PATH_TO_FRAMEBUFFER = "/dev/fb0";
 
@@ -83,10 +85,18 @@ int get_key(){
   return FD_ISSET(0, &fds);
 }
 
-// - Temp ----------------------------------------------------------------------
+// - Main ----------------------------------------------------------------------
 
 int main(int argc, char* argv[]){
+  char str = ' ';
 
   init_graphics();
-  enable_echo();
+  while(true){
+    str = get_key();
+    if(str != ' '){
+      printf("%s",str);
+      str = ' ';
+    }
+  }
+  exit_graphics();
 }
