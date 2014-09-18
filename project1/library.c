@@ -35,12 +35,12 @@ void enable_echo(){
 }
 
 void init_graphics(){
-  char *pathname = "/dev/fb0";
+  char *PATH_TO_FRAMEBUFFER = "/dev/fb0";
 
   struct fb_var_screeninfo *virtual_resolution_info;
   struct fb_fix_screeninfo *bit_depth_info;
 
-  fd = open(pathname, O_RDWR);
+  fd = open(PATH_TO_FRAMEBUFFER, O_RDWR);
 
   ioctl(fd, FBIOGET_VSCREENINFO, virtual_resolution_info);
   ioctl(fd, FBIOGET_FSCREENINFO, bit_depth_info);
