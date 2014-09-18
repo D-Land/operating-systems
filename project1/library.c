@@ -89,11 +89,18 @@ int get_key(){
 
 int main(int argc, char* argv[]){
   char str = 'l';
+  int other;
 
   init_graphics();
-  if(str == 'l'){
-    printf("\n%s\n", "ITS L");
+  while(1){
+    other = get_key();
+    if(other != NULL){
+      str = other;
+    }
+
+    if(str != 'l'){
+      printf("\n%c\n", str);
+    }
   }
-  printf("\n%c\n", str);
   exit_graphics();
 }
