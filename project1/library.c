@@ -91,6 +91,6 @@ int main(int argc, char* argv[]){
   char str = 'l';
 
   init_graphics();
-  printf("%s", str)
+  printf("%s", str);
   exit_graphics();
 }
