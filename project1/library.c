@@ -91,11 +91,14 @@ int main(int argc, char* argv[]){
   char str = ' ';
 
   init_graphics();
-  while(true){
+  while(1){
     str = get_key();
     if(str != ' '){
       printf("%s",str);
       str = ' ';
+    }
+    if(str == 'q'){
+      break;
     }
   }
   exit_graphics();
