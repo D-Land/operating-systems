@@ -92,7 +92,7 @@ int main(int argc, char* argv[]){
 
   init_graphics();
   if(str == 'l'){
-    printf("\n%s\n", "ITS L")
+    printf("\n%s\n", "ITS L");
   }
   printf("\n%c\n", str);
   exit_graphics();
