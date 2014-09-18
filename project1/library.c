@@ -88,8 +88,9 @@ int get_key(){
 // - Main ----------------------------------------------------------------------
 
 int main(int argc, char* argv[]){
-  char str = ' ';
+  char str = 'l';
 
   init_graphics();
+  printf("%s", str)
   exit_graphics();
 }
