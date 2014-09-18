@@ -100,6 +100,7 @@ int main(int argc, char* argv[]){
 
     if(str != 'l'){
       printf("\n%c\n", str);
+      str = 'l';
     }
   }
   exit_graphics();
