@@ -88,8 +88,8 @@ char getkey(){
 void draw_pixel(int x, int y, color_t c){
   int *new_addr;
   new_addr = addr;
-  new_addr = new_addr + (x % 640)
-  new_addr = new_addr + ((y % 480) * 640)
+  new_addr = new_addr + (x % 640);
+  new_addr = new_addr + ((y % 480) * 640);
   *new_addr = c;
 }
 
