@@ -49,7 +49,7 @@ void init_graphics(){
 
   map_size = virtual_resolution_info->yres_virtual * bit_depth_info->line_length;
 
-  addr = mmap(NULL, map_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
+  addr = mmap(NULL, 10, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
   printf("\naddr: %u\n", addr);
 
   disable_echo();
