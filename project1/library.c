@@ -92,7 +92,7 @@ void draw_pixel(int x, int y, color_t c){
   unsigned int adjustment;
 
   /* adjustment = ((x % 640) + ((y % 480) * 640)); */
-  adjustment = x+y;
+  adjustment = x * 16;
 
   new_addr = addr;
   new_addr = new_addr + adjustment;
@@ -112,10 +112,10 @@ int main(int argc, char* argv[]){
     draw_pixel(x, 0, c);
     x = x+1;
     y = 0;
-    while(y < 200){
-      draw_pixel(x, y, c);
-      y=y+1;
-    }
+    /* while(y < 200){ */
+    /*   draw_pixel(x, y, c); */
+    /*   y=y+1; */
+    /* } */
   }
   while(1){
     if(getkey())
