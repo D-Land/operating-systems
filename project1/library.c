@@ -54,6 +54,8 @@ void init_graphics(){
   yres = virtual_resolution_info.yres_virtual;
   length = bit_depth_info.line_length;
 
+  //test
+
   printf("\nyres: %u\n", virtual_resolution_info.yres_virtual);
   printf("length: %u\n", bit_depth_info.line_length);
   printf("map_size: %u\n", map_size);
