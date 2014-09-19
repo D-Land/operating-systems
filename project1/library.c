@@ -13,7 +13,7 @@
 typedef unsigned short color_t;
 struct termios original_terminal_settings;
 unsigned int map_size;
-char *addr;
+int *addr;
 int fd;
 
 // - Echo Enable/Disable -------------------------------------------------------
@@ -86,10 +86,24 @@ char getkey(){
 }
 
 void draw_pixel(int x, int y, color_t c){
+  int *new_addr;
+  new_addr = addr;
+  new_addr = new_addr + (x % 640)
+  new_addr = new_addr + ((y % 480) * 640)
+  *new_addr = c;
 }
 
 // - Main ----------------------------------------------------------------------
 
 int main(int argc, char* argv[]){
-  disable_echo();
+  color_t c = 65535;
+
+  init_graphics();
+  clear_screen();
+  draw_pixel(0, 0, c);
+  while(1){
+    if(getkey())
+      break;
+  }
+  exit_graphics();
 }
