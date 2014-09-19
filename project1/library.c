@@ -91,7 +91,7 @@ void draw_pixel(int x, int y, color_t c){
   unsigned int *new_addr;
   unsigned int adjustment;
 
-  adjustment = ((x % 640) + ((y % 480) * 640)) * 16;
+  adjustment = ((x % 640) + ((y % 480) * 640));
 
   new_addr = addr;
   new_addr = new_addr + adjustment;
