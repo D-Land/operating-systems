@@ -38,6 +38,8 @@ void enable_echo(){
 
 void init_graphics(){
   char *PATH_TO_FRAMEBUFFER = "/dev/fb0";
+  unsigned int yres;
+  unsigned int length;
 
   struct fb_var_screeninfo *virtual_resolution_info;
   struct fb_fix_screeninfo *bit_depth_info;
@@ -49,7 +51,12 @@ void init_graphics(){
 
   map_size = virtual_resolution_info->yres_virtual * bit_depth_info->line_length;
 
-  printf("\nVirtual_Solution->yres_virtual: %s\nbit_depth_info->line_length: %s\n", virtual_resolution_info->yres, bit_depth_info->line_length);
+  yres = virtual_resolution_info->yres_virtual;
+  length = bit_depth_info->line_length;
+
+  printf("\nyres: %u\n", virtual_resolution_info->yres_virtual);
+  printf("\nlength: %u\n", bit_depth_info->line_length);
+  printf("\nmap_size: %u\n", map_size);
 
   addr = mmap(NULL, map_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
   printf("\nmap_size: %u\naddr: %u\n", map_size, addr);
