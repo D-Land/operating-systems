@@ -49,10 +49,10 @@ void init_graphics(){
   ioctl(fd, FBIOGET_VSCREENINFO, &virtual_resolution_info);
   ioctl(fd, FBIOGET_FSCREENINFO, &bit_depth_info);
 
-  map_size = virtual_resolution_info->yres_virtual * bit_depth_info->line_length;
+  map_size = virtual_resolution_info.yres_virtual * bit_depth_info.line_length;
 
-  yres = virtual_resolution_info->yres_virtual;
-  length = bit_depth_info->line_length;
+  yres = virtual_resolution_info.yres_virtual;
+  length = bit_depth_info.line_length;
 
   printf("\nyres: %u\n", virtual_resolution_info->yres_virtual);
   printf("length: %u\n", bit_depth_info->line_length);
