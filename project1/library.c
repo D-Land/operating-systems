@@ -92,7 +92,7 @@ int main(int argc, char* argv[]){
 
   init_graphics();
   while(1){
-    if(temp = get_key())
+    if(temp = getkey())
       printf("%c", temp);
       break;
   }
