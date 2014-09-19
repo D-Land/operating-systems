@@ -46,8 +46,8 @@ void init_graphics(){
 
   fd = open(PATH_TO_FRAMEBUFFER, O_RDWR);
 
-  ioctl(fd, FBIOGET_VSCREENINFO, virtual_resolution_info);
-  ioctl(fd, FBIOGET_FSCREENINFO, bit_depth_info);
+  ioctl(fd, FBIOGET_VSCREENINFO, &virtual_resolution_info);
+  ioctl(fd, FBIOGET_FSCREENINFO, &bit_depth_info);
 
   map_size = virtual_resolution_info->yres_virtual * bit_depth_info->line_length;
 
