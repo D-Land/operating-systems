@@ -104,18 +104,12 @@ void draw_pixel(int x, int y, color_t c){
 int main(int argc, char* argv[]){
   color_t c = 65534;
   int x = 0;
-  int y = 0;
 
   init_graphics();
   clear_screen();
   while(x < 100){
     draw_pixel(x, 0, c);
     x = x+1;
-    y = 0;
-    while(y < 100){
-      draw_pixel(x, y, c);
-      y=y+1;
-    }
   }
   while(1){
     if(getkey())
