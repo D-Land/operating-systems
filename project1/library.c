@@ -96,7 +96,7 @@ void draw_pixel(int x, int y, color_t c){
 // - Main ----------------------------------------------------------------------
 
 int main(int argc, char* argv[]){
-  color_t c = 65535;
+  color_t c = 65534;
 
   init_graphics();
   clear_screen();
