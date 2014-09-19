@@ -81,13 +81,14 @@ int get_key(){
   fd_set fds;
   FD_ZERO(&fds);
   FD_SET(0, &fds);
-  return select(1, &fds, NULL, NULL, &timeout);
+  select(1, &fds, NULL, NULL, &timeout);
+  return FD_ISSET(0, &fds);
 }
 
 // - Main ----------------------------------------------------------------------
 
 int main(int argc, char* argv[]){
-  char str = 'l';
+  int num = NULL;
   int other;
 
   init_graphics();
@@ -97,9 +98,9 @@ int main(int argc, char* argv[]){
       str = other;
     }
 
-    if(str != 'l'){
+    if(str != NULL){
       printf("\n%d\n", str);
-      str = 'l';
+      str = NULL;
     }
   }
   exit_graphics();
