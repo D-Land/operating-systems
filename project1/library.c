@@ -81,8 +81,7 @@ int get_key(){
   fd_set fds;
   FD_ZERO(&fds);
   FD_SET(0, &fds);
-  select(1, &fds, NULL, NULL, &timeout);
-  return FD_ISSET(0, &fds);
+  return select(1, &fds, NULL, NULL, &timeout);
 }
 
 // - Main ----------------------------------------------------------------------
