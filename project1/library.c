@@ -98,7 +98,7 @@ int main(int argc, char* argv[]){
     }
 
     if(str != 'l'){
-      printf("\n%c\n", str);
+      printf("\n%d\n", str);
       str = 'l';
     }
   }
