@@ -108,11 +108,11 @@ int main(int argc, char* argv[]){
 
   init_graphics();
   clear_screen();
-  while(x < 640){
+  while(x < 639){
     draw_pixel(x, 0, c);
     x = x+1;
     y = 0;
-    while(y < 480){
+    while(y < 479){
       draw_pixel(x, y, c);
       y=y+1;
     }
