@@ -55,8 +55,8 @@ void init_graphics(){
   length = bit_depth_info->line_length;
 
   printf("\nyres: %u\n", virtual_resolution_info->yres_virtual);
-  printf("\nlength: %u\n", bit_depth_info->line_length);
-  printf("\nmap_size: %u\n", map_size);
+  printf("length: %u\n", bit_depth_info->line_length);
+  printf("map_size: %u\n", map_size);
 
   addr = mmap(NULL, map_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
   printf("\nmap_size: %u\naddr: %u\n", map_size, addr);
