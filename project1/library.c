@@ -110,7 +110,7 @@ int main(int argc, char* argv[]){
   while(x < 200){
     draw_pixel(x, 0, c);
     x = x+1;
-    y = 0:
+    y = 0;
     while(y < 200){
       draw_pixel(x, y, c);
       y=y+1;
