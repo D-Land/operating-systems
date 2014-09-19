@@ -51,17 +51,7 @@ void init_graphics(){
 
   map_size = virtual_resolution_info.yres_virtual * bit_depth_info.line_length;
 
-  yres = virtual_resolution_info.yres_virtual;
-  length = bit_depth_info.line_length;
-
-  //test
-
-  printf("\nyres: %u\n", virtual_resolution_info.yres_virtual);
-  printf("length: %u\n", bit_depth_info.line_length);
-  printf("map_size: %u\n", map_size);
-
   addr = mmap(NULL, map_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
-  printf("\nmap_size: %u\naddr: %u\n", map_size, addr);
 
   disable_echo();
 }
@@ -97,7 +87,7 @@ char getkey(){
   return FD_ISSET(0, &fds);
 }
 
-void draw_pixel(int x, int y, short c){
+void draw_pixel(int x, int y, color_t c){
   unsigned int *new_addr;
   unsigned int adjustment;
 
@@ -105,7 +95,7 @@ void draw_pixel(int x, int y, short c){
 
   new_addr = addr;
   new_addr = new_addr + adjustment;
-  printf("\naddr: %u\nadjustment: %u\nnew_addr: %u\n", addr, adjustment, new_addr);
+  *new_addr = c;
 }
 
 // - Main ----------------------------------------------------------------------
@@ -114,8 +104,8 @@ int main(int argc, char* argv[]){
   color_t c = 65534;
 
   init_graphics();
-  /* clear_screen(); */
-  draw_pixel(1, 1, 0);
+  clear_screen();
+  draw_pixel(1, 1, c);
   while(1){
     if(getkey())
       break;
