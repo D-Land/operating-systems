@@ -102,18 +102,19 @@ void draw_pixel(int x, int y, color_t c){
 
 int main(int argc, char* argv[]){
   color_t c = 65534;
-  /* color_t c = 0; */
   int x = 0;
+  int y = 0;
 
   init_graphics();
-  clear_screen();
-  clear_screen();
-  clear_screen();
-  clear_screen();
   clear_screen();
   while(x < 200){
     draw_pixel(x, 0, c);
     x = x+1;
+    y = 0:
+    while(y < 200){
+      draw_pixel(x, y, c);
+      y=y+1;
+    }
   }
   while(1){
     if(getkey())
