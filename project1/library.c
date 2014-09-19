@@ -87,13 +87,13 @@ char getkey(){
 
 void draw_pixel(int x, int y, short c){
   unsigned int *new_addr;
-  int adjustment;
+  unsigned int adjustment;
 
   adjustment = ((x % 640) + ((y % 480) * 640)) * 16;
 
-  new_addr = addr;
-  new_addr = new_addr + adjustment;
-  *new_addr = c;
+  *new_addr = *addr;
+  *new_addr = *new_addr + adjustment;
+  new_addr = c;
 }
 
 // - Main ----------------------------------------------------------------------
