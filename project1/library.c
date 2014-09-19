@@ -50,7 +50,7 @@ void init_graphics(){
   map_size = virtual_resolution_info->yres_virtual * bit_depth_info->line_length;
 
   addr = mmap(NULL, 10, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
-  printf("\naddr: %u\n", addr);
+  printf("\nmap_size: %u\naddr: %u\n", map_size, addr);
 
   disable_echo();
 }
