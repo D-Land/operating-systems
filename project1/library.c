@@ -93,5 +93,5 @@ void draw_pixel(int x, int y, color_t c){
 // - Main ----------------------------------------------------------------------
 
 int main(int argc, char* argv[]){
-  init_graphics();
+  disable_echo();
 }
