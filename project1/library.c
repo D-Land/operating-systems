@@ -101,11 +101,12 @@ void draw_pixel(int x, int y, color_t c){
 // - Main ----------------------------------------------------------------------
 
 int main(int argc, char* argv[]){
-  color_t c = 65534;
+  /* color_t c = 65534; */
+  color_t c = 0;
 
   init_graphics();
   clear_screen();
-  draw_pixel(1, 1, c);
+  draw_pixel(0, 0, c);
   while(1){
     if(getkey())
       break;
