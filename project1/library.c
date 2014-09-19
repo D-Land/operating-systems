@@ -13,7 +13,7 @@
 typedef unsigned short color_t;
 struct termios original_terminal_settings;
 unsigned int map_size;
-int *addr;
+unsigned int *addr;
 int fd;
 
 // - Echo Enable/Disable -------------------------------------------------------
@@ -86,7 +86,7 @@ char getkey(){
 }
 
 void draw_pixel(int x, int y, short c){
-  int *new_addr;
+  unsigned int *new_addr;
   int adjustment;
 
   adjustment = ((x % 640) + ((y % 480) * 640)) * 16;
