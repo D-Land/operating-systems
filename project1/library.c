@@ -91,9 +91,9 @@ void draw_pixel(int x, int y, short c){
 
   adjustment = ((x % 640) + ((y % 480) * 640)) * 16;
 
-  *new_addr = *addr;
-  *new_addr = *new_addr + adjustment;
-  new_addr = c;
+  new_addr = addr;
+  new_addr = new_addr + adjustment;
+  printf("\naddr: %u\nadjustment: %u\nnew_addr: %u\n");
 }
 
 // - Main ----------------------------------------------------------------------
