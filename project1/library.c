@@ -103,7 +103,7 @@ int main(int argc, char* argv[]){
 
   init_graphics();
   clear_screen();
-  /* draw_pixel(0, 0, 0); */
+  draw_pixel(0, 0, 0);
   while(1){
     if(getkey())
       break;
