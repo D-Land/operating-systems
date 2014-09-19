@@ -88,20 +88,11 @@ int get_key(){
 // - Main ----------------------------------------------------------------------
 
 int main(int argc, char* argv[]){
-  int num = NULL;
-  int other;
 
   init_graphics();
   while(1){
-    other = get_key();
-    if(other != NULL){
-      str = other;
-    }
-
-    if(str != NULL){
-      printf("\n%d\n", str);
-      str = NULL;
-    }
+    if(get_key())
+      break;
   }
   exit_graphics();
 }
