@@ -85,11 +85,14 @@ char getkey(){
   return FD_ISSET(0, &fds);
 }
 
-void draw_pixel(int x, int y, color_t c){
+void draw_pixel(int x, int y, short c){
   int *new_addr;
+  int adjustment;
+
+  adjustment = ((x % 640) + ((y % 480) * 640)) * 16;
+
   new_addr = addr;
-  new_addr = new_addr + (x % 640);
-  new_addr = new_addr + ((y % 480) * 640);
+  new_addr = new addr + adjustment;
   *new_addr = c;
 }
 
@@ -97,11 +100,11 @@ void draw_pixel(int x, int y, color_t c){
 
 int main(int argc, char* argv[]){
   /* color_t c = 65534; */
-  color_t c = 9999;
+  /* color_t c = 9999; */
 
   init_graphics();
   clear_screen();
-  draw_pixel(0, 0, c);
+  draw_pixel(0, 0, 65500);
   while(1){
     if(getkey())
       break;
