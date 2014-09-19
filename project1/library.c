@@ -92,7 +92,7 @@ void draw_pixel(int x, int y, color_t c){
   unsigned int adjustment;
 
   /* adjustment = ((x % 640) + ((y % 480) * 640)); */
-  adjustment = x + (y* 639);
+  adjustment = x + (y* 640);
 
   new_addr = addr;
   new_addr = new_addr + adjustment;
@@ -108,7 +108,7 @@ int main(int argc, char* argv[]){
 
   init_graphics();
   clear_screen();
-  while(x < 2){
+  while(x < 200){
     draw_pixel(x, 0, c);
     x = x+1;
     y = 0;
