@@ -88,10 +88,12 @@ char getkey(){
 // - Main ----------------------------------------------------------------------
 
 int main(int argc, char* argv[]){
+  char temp;
 
   init_graphics();
   while(1){
-    if(get_key())
+    if(temp = get_key())
+      printf("%c", temp);
       break;
   }
   clear_screen();
