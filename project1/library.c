@@ -113,6 +113,7 @@ int main(int argc, char* argv[]){
     x = x+1;
   }
   while(1){
+  clear_screen();
     if(getkey())
       break;
   }
