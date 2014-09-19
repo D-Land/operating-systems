@@ -94,7 +94,7 @@ void draw_pixel(int x, int y, short c){
 
   new_addr = addr;
   new_addr = new_addr + adjustment;
-  printf("\naddr: %u\nadjustment: %u\nnew_addr: %u\n");
+  printf("\naddr: %u\nadjustment: %u\nnew_addr: %u\n", addr, adjustment, new_addr);
 }
 
 // - Main ----------------------------------------------------------------------
