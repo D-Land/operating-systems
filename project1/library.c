@@ -50,6 +50,7 @@ void init_graphics(){
   map_size = virtual_resolution_info->yres_virtual * bit_depth_info->line_length;
 
   addr = mmap(NULL, map_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
+  printf("\naddr: %u\n", addr);
 
   disable_echo();
 }
@@ -102,7 +103,7 @@ int main(int argc, char* argv[]){
   color_t c = 65534;
 
   init_graphics();
-  clear_screen();
+  /* clear_screen(); */
   draw_pixel(0, 0, 0);
   while(1){
     if(getkey())
