@@ -73,7 +73,7 @@ void sleep_ms(int t){
   nanosleep(&sleep_settings, &other);
 }
 
-int get_key(){
+char getkey(){
   struct timeval timeout;
   timeout.tv_sec = 0;
   timeout.tv_usec = 0;
