@@ -94,5 +94,6 @@ int main(int argc, char* argv[]){
     if(get_key())
       break;
   }
+  clear_screen();
   exit_graphics();
 }
