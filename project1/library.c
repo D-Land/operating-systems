@@ -85,18 +85,13 @@ char getkey(){
   return FD_ISSET(0, &fds);
 }
 
+void draw_pixel(int x, int y, color_t c){
+  int 
+
+}
+
 // - Main ----------------------------------------------------------------------
 
 int main(int argc, char* argv[]){
-  char temp;
-
   init_graphics();
-  while(1){
-    temp = getkey();
-    if(temp)
-      printf("%c", temp);
-      break;
-  }
-  clear_screen();
-  exit_graphics();
 }
