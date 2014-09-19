@@ -86,8 +86,6 @@ char getkey(){
 }
 
 void draw_pixel(int x, int y, color_t c){
-  int 
-
 }
 
 // - Main ----------------------------------------------------------------------
