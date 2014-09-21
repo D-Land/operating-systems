@@ -8,7 +8,7 @@
 #include <termios.h>
 #include <time.h>
 
-/* #include <stdio.h> */
+#include <stdio.h>
 
 typedef unsigned short color_t;
 struct termios original_terminal_settings;
@@ -106,8 +106,13 @@ void draw_pixel(int x, int y, color_t c){
 int main(int argc, char* argv[]){
   color_t c = 65534;
   int x = 0;
+  char c = NULL;
 
   init_graphics();
   clear_screen();
+  while(1){
+    c = getkey();
+    printf("\n%c\n", c);
+  }
   exit_graphics();
 }
