@@ -120,7 +120,7 @@ int main(int argc, char* argv[]){
     printf("nerd");
     if(cc == 'q'){
       exit_graphics();
-      exit(0);
+      break;
     }
   }
 }
