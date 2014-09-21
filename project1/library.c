@@ -102,17 +102,15 @@ int main(int argc, char* argv[]){
   color_t c = 65534;
   int x = 0;
   char cc = NULL;
-  int i = 0;
 
   init_graphics();
   clear_screen();
   while(1){
-    /* cc = getkey(); */
-    i++;
-    draw_pixel(i, 0, c)
-    /* if(cc == 'q'){ */
-    /*   exit_graphics(); */
-    /*   break; */
+    cc = getkey();
+    printf("NERD\n");
+    if(cc == 'q'){
+      exit_graphics();
+      break;
     }
   }
 }
