@@ -117,6 +117,7 @@ int main(int argc, char* argv[]){
   while(1){
     cc = getkey();
     printf("\n%c\n", cc);
+    printf("nerd");
     if(cc == 'q'){
       exit_graphics();
       exit(0);
