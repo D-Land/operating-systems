@@ -107,12 +107,12 @@ int main(int argc, char* argv[]){
   init_graphics();
   clear_screen();
   while(1){
-    cc = getkey();
+    /* cc = getkey(); */
     i++;
     draw_pixel(i, 0, c)
-    if(cc == 'q'){
-      exit_graphics();
-      break;
+    /* if(cc == 'q'){ */
+    /*   exit_graphics(); */
+    /*   break; */
     }
   }
 }
