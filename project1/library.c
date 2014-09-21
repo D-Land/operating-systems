@@ -106,13 +106,13 @@ void draw_pixel(int x, int y, color_t c){
 int main(int argc, char* argv[]){
   color_t c = 65534;
   int x = 0;
-  char c = NULL;
+  char cc = NULL;
 
   init_graphics();
   clear_screen();
   while(1){
-    c = getkey();
-    printf("\n%c\n", c);
+    cc = getkey();
+    printf("\n%c\n", cc);
   }
   exit_graphics();
 }
