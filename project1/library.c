@@ -98,7 +98,7 @@ void sleep_ms(int t){
 
 char getkey(){
   char c;
-  read(0, c, 1);
+  read(0, &c, sizeof(c));
   return c;
 }
 
