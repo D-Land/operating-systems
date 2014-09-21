@@ -85,7 +85,7 @@ char getkey(){
   FD_ZERO(&fds);
   FD_SET(0, &fds);
   select(1, &fds, NULL, NULL, &timeout);
-  read(STDIN_FILENO, &c, sizeof(c));
+  read(0, &c, sizeof(c));
   /* return FD_ISSET(0, &fds); */
 }
 
