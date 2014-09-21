@@ -8,7 +8,7 @@
 #include <termios.h>
 #include <time.h>
 
-#include <stdio.h>
+/* #include <stdio.h> */
 
 typedef unsigned short color_t;
 struct termios original_terminal_settings;
@@ -76,6 +76,7 @@ void sleep_ms(int t){
 }
 
 char getkey(){
+  char c;
   struct timeval timeout;
   timeout.tv_sec = 0;
   timeout.tv_usec = 0;
@@ -84,12 +85,13 @@ char getkey(){
   FD_ZERO(&fds);
   FD_SET(0, &fds);
   select(1, &fds, NULL, NULL, &timeout);
-  return FD_ISSET(0, &fds);
+  read(STDIN_FILENO, &c, sizeof(c));
+  /* return FD_ISSET(0, &fds); */
 }
 
 void draw_pixel(int x, int y, color_t c){
   unsigned int *new_addr;
-  unsigned int adjustment;
+  unsigned short adjustment;
 
   /* adjustment = ((x % 640) + ((y % 480) * 640)); */
   adjustment = x + (y* 320);
@@ -107,13 +109,5 @@ int main(int argc, char* argv[]){
 
   init_graphics();
   clear_screen();
-  while(x < 100){
-    draw_pixel(x, 0, c);
-    x = x+1;
-  }
-  while(1){
-    if(getkey())
-      break;
-  }
   exit_graphics();
 }
