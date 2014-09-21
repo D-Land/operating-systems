@@ -113,6 +113,8 @@ int main(int argc, char* argv[]){
   while(1){
     cc = getkey();
     printf("\n%c\n", cc);
+    if(cc == 'q')
+      break;
   }
   exit_graphics();
 }
