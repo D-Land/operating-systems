@@ -54,6 +54,7 @@ void init_graphics(){
   addr = mmap(NULL, map_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
 
   disable_echo();
+  fnctl (0, F_SETFL, O_NONBLOCK);
 }
 
 void exit_graphics(){
@@ -75,21 +76,27 @@ void sleep_ms(int t){
   nanosleep(&sleep_settings, &other);
 }
 
-int detectUserInput(){
-  struct timeval timeout;
-  timeout.tv_sec = 0;
-  timeout.tv_usec = 0;
+/* int detectUserInput(){ */
+/*   struct timeval timeout; */
+/*   timeout.tv_sec = 0; */
+/*   timeout.tv_usec = 0; */
 
-  fd_set fds;
-  FD_ZERO(&fds);
-  FD_SET(0, &fds);
-  return select(1, &fds, NULL, NULL, &timeout);
-}
+/*   fd_set fds; */
+/*   FD_ZERO(&fds); */
+/*   FD_SET(0, &fds); */
+/*   return select(1, &fds, NULL, NULL, &timeout); */
+/* } */
 
-char getkey(){
-  char c = NULL;
-  if(!detectUserInput);
-    read(0, &c, sizeof(c));
+/* char getkey(){ */
+/*   char c = NULL; */
+/*   if(!detectUserInput); */
+/*     read(0, &c, sizeof(c)); */
+/*   return c; */
+/* } */
+
+char getKey(){
+  char c;
+  read(0, c, 1);
   return c;
 }
 
