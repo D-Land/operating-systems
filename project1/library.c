@@ -107,6 +107,7 @@ int main(int argc, char* argv[]){
   clear_screen();
   while(1){
     cc = getkey();
+    printf("\n%c", cc);
     if(cc == 'q'){
       exit_graphics();
       break;
