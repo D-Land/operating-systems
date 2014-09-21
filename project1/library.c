@@ -75,8 +75,7 @@ void sleep_ms(int t){
   nanosleep(&sleep_settings, &other);
 }
 
-char getkey(){
-  char c;
+int detectUserInput(){
   struct timeval timeout;
   timeout.tv_sec = 0;
   timeout.tv_usec = 0;
@@ -84,9 +83,14 @@ char getkey(){
   fd_set fds;
   FD_ZERO(&fds);
   FD_SET(0, &fds);
-  select(1, &fds, NULL, NULL, &timeout);
+  return select(1, &fds, NULL, NULL, &timeout);
+}
+
+char getkey(){
+  char c;
+  while(!detectUserInput);
   read(0, &c, sizeof(c));
-  /* return FD_ISSET(0, &fds); */
+  return c;
 }
 
 void draw_pixel(int x, int y, color_t c){
@@ -113,9 +117,9 @@ int main(int argc, char* argv[]){
   while(1){
     cc = getkey();
     printf("\n%c\n", cc);
-    printf("nerd");
-    if(cc == 'q')
-      break;
+    if(cc == 'q'){
+      exit_graphics();
+      exit(0);
+    }
   }
-  exit_graphics();
 }
