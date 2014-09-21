@@ -87,9 +87,9 @@ int detectUserInput(){
 }
 
 char getkey(){
-  char c;
-  while(!detectUserInput);
-  read(0, &c, sizeof(c));
+  char c = NULL;
+  if(!detectUserInput);
+    read(0, &c, sizeof(c));
   return c;
 }
 
