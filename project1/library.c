@@ -100,6 +100,7 @@ void draw_pixel(int x, int y, color_t c){
 
 int main(int argc, char* argv[]){
   color_t c = 65534;
+  char cc = NULL;
   int x = 0;
   int y = 0;
 
@@ -112,6 +113,12 @@ int main(int argc, char* argv[]){
     while(y < 100){
       draw_pixel(x, y, c);
       y=y+1;
+    }
+  } 
+  while(1){
+    cc = getkey();
+    if(cc == 'q'){
+      break;
     }
   }
   exit_graphics();
