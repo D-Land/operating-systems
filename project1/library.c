@@ -109,23 +109,3 @@ void draw_rect(int x1, int y1, int width, int height, color_t c){
     draw_pixel(x1 + width, y, c);
   }
 }
-
-// - Main ----------------------------------------------------------------------
-
-/* int main(int argc, char* argv[]){ */
-/*   color_t c = 65534; */
-/*   char cc = NULL; */
-/*   int x = 0; */
-/*   int y = 0; */
-
-/*   init_graphics(); */
-/*   clear_screen(); */
-/*   draw_rect(2,2,100,100,c); */
-/*   while(1){ */
-/*     cc = getkey(); */
-/*     if(cc == 'q'){ */
-/*       break; */
-/*     } */
-/*   } */
-/*   exit_graphics(); */
-/* } */
