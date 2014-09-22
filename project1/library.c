@@ -63,7 +63,7 @@ void exit_graphics(){
 }
 
 void clear_screen(){
-  write(1,"\033[2J");
+  write(1,"\033[2J",7);
 }
 
 void sleep_ms(long t){
