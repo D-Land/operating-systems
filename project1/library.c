@@ -69,7 +69,7 @@ void clear_screen(){
   printf("\033[2J");
 }
 
-void sleep_ms(int t){
+void sleep_ms(long t){
   struct timespec sleep_settings, other;
 
   sleep_settings.tv_sec  = 0;
@@ -102,17 +102,17 @@ int main(int argc, char* argv[]){
   color_t c = 65534;
   int x = 0;
   int y = 0;
-  char cc = NULL;
 
   init_graphics();
   clear_screen();
-  while(x < 200){
-    x++;
-    draw_pixel(x, y, c);
-    y=0;
-    while(y < 200){
-      y++;
-      draw_pixel(x,y,c);
+  while(x < 100){
+    draw_pixel(x, 0, c);
+    x = x+1;
+    y = 0;
+    while(y < 100){
+      draw_pixel(x, y, c);
+      y=y+1;
     }
   }
+  exit_graphics();
 }
