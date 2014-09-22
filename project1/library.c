@@ -95,6 +95,21 @@ void draw_pixel(int x, int y, color_t c){
   *new_addr = c;
 }
 
+void draw_rect(int x1, int y1, int width, int height, color_t c){
+  int x = 0;
+  int y = 0;
+
+  for(x = x1; x < width; x++){
+    draw_pixel(x, y1, c);
+    draw_pixel(x, y1 + height, c);
+  }
+
+  for(y = y1; x < height; y++){
+    draw_pixel(y, x1, c);
+    draw_pixel(y, x1 + width, c);
+  }
+}
+
 // - Main ----------------------------------------------------------------------
 
 int main(int argc, char* argv[]){
@@ -105,15 +120,16 @@ int main(int argc, char* argv[]){
 
   init_graphics();
   clear_screen();
-  while(x < 100){
-    draw_pixel(x, 0, c);
-    x = x+1;
-    y = 0;
-    while(y < 100){
-      draw_pixel(x, y, c);
-      y=y+1;
-    }
-  } 
+  /* while(x < 100){ */
+  /*   draw_pixel(x, 0, c); */
+  /*   x = x+1; */
+  /*   y = 0; */
+  /*   while(y < 100){ */
+  /*     draw_pixel(x, y, c); */
+  /*     y=y+1; */
+  /*   } */
+  /* } */ 
+  draw_rect(2,2,100,100,c);
   while(1){
     cc = getkey();
     if(cc == 'q'){
