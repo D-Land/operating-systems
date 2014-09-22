@@ -113,7 +113,7 @@ int main(int argc, char* argv[]){
   int y = 0;
 
   init_graphics();
-  clear_screen();
+  /* clear_screen(); */
   while(x < 100){
     draw_pixel(x, 0, c);
     x = x+1;
