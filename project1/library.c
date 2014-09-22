@@ -88,8 +88,7 @@ void draw_pixel(int x, int y, color_t c){
   unsigned short *new_addr;
   unsigned int adjustment;
 
-  /* adjustment = ((x % 640) + ((y % 480) * 640)); */
-  adjustment = (x) + (y * 640);
+  adjustment = ((x % 640) + ((y % 480) * 640));
 
   new_addr = addr;
   new_addr = new_addr + adjustment;
