@@ -56,7 +56,7 @@ void init_graphics(){
   addr = mmap(NULL, map_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
 
   disable_echo();
-  fcntl(0, F_SETFL, O_NONBLOCK);
+  /* fcntl(0, F_SETFL, O_NONBLOCK); */
 }
 
 void exit_graphics(){
@@ -89,7 +89,7 @@ void draw_pixel(int x, int y, color_t c){
   unsigned short adjustment;
 
   /* adjustment = ((x % 640) + ((y % 480) * 640)); */
-  adjustment = x + (y* 320);
+  adjustment = x + (y * 320);
 
   new_addr = addr;
   new_addr = new_addr + adjustment;
