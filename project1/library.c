@@ -99,12 +99,12 @@ void draw_rect(int x1, int y1, int width, int height, color_t c){
   int x = 0;
   int y = 0;
 
-  for(x = x1; x <= width; x++){
+  for(x = x1; x < width+1; x++){
     draw_pixel(x, y1, c);
     draw_pixel(x, y1 + height, c);
   }
 
-  for(y = y1; y <= height; y++){
+  for(y = y1; y < height+1; y++){
     draw_pixel(x1, y, c);
     draw_pixel(x1 + width, y, c);
   }
