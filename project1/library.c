@@ -9,9 +9,6 @@
 #include <time.h>
 #include <unistd.h>
 
-
-#include <stdio.h>
-
 typedef unsigned short color_t;
 struct termios original_terminal_settings;
 unsigned int map_size;
