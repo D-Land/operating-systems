@@ -101,16 +101,18 @@ void draw_pixel(int x, int y, color_t c){
 int main(int argc, char* argv[]){
   color_t c = 65534;
   int x = 0;
+  int y = 0;
   char cc = NULL;
 
   init_graphics();
   clear_screen();
-  while(1){
-    cc = getkey();
-    printf("NERD\n");
-    if(cc == 'q'){
-      exit_graphics();
-      break;
+  while(x < 200){
+    x++;
+    draw_pixel(x, y, c);
+    y=0;
+    while(y < 200){
+      y++;
+      draw_pixel(x,y,c);
     }
   }
 }
