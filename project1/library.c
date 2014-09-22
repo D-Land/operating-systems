@@ -104,7 +104,7 @@ void draw_rect(int x1, int y1, int width, int height, color_t c){
     draw_pixel(x, y1 + height, c);
   }
 
-  for(y = y1; x < height; y++){
+  for(y = y1; y < height; y++){
     draw_pixel(x1, y, c);
     draw_pixel(x1 + width, y, c);
   }
