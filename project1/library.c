@@ -56,7 +56,7 @@ void init_graphics(){
   addr = mmap(NULL, map_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
 
   disable_echo();
-  /* fcntl(0, F_SETFL, O_NONBLOCK); */
+  fcntl(0, F_SETFL, O_NONBLOCK);
 }
 
 void exit_graphics(){
