@@ -8,154 +8,105 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
 
-struct pq_node{
+struct cs1550_node{
   struct task_struct *task;
-
-  struct pq_node *next;
-};
-
-struct pq{
-  struct pq_node *first;
-  struct pq_node *last;
+  struct cs1550_node *next;
 };
 
 struct cs1550_sem{
   int value;
-
-  struct pq *queue;
+  struct cs1550_node *first;
+  struct cs1550_node *last;
 };
 
 void up(struct cs1550_sem *);
 void down(struct cs1550_sem *);
 
 int main(int argc, char *argv[]){
-  int  is_consumer;
-  int  is_producer;
-  int  i;
-  int  buffer_size;
-  int  *num_of_prods;
-  int  *num_of_cons;
-  int  *counter;
-  int  *next_num;
-  int  *buffer_start;
-  void *mmap_addr;
+  int i;
+  int j;
 
-  pthread_mutex_t mmap_lock;
-  pthread_mutex_t first_setup_lock;
-  pthread_mutex_t setup_lock;
-  pthread_mutex_t consumer_lock;
-  pthread_mutex_t producer_lock;
+  int num_of_prods;
+  int num_of_cons;
+  int buffer_size;
 
-  thread_mutex_init (&mmap_lock        , NULL);
-  thread_mutex_init (&first_setup_lock , NULL);
-  thread_mutex_init (&setup_lock       , NULL);
-  thread_mutex_init (&producer_lock    , NULL);
-  thread_mutex_init (&consumer_lock    , NULL);
+  struct cs1550_sem *mutex;
+  struct cs1550_sem *empty;
+  struct cs1550_sem *full;
 
-  is_producer = 0;
-  is_consumer = 0;
+  int *buffer_addr;
+  int *buffer_end;
+  int *next_num_addr;
 
-  pthread_mutex_lock(&mmap_lock);
-  if(fork() != 0){
-    mmap_addr    = mmap(NULL, (sizeof(int) * (argv[3] + 4)), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, 0, 0);
-    num_of_prods = mmap_addr;
-    num_of_cons  = mmap_addr + sizeof(int);
-    counter      = mmap_addr + (sizeof(int) * 2);
-    next_num     = mmap_addr + (sizeof(int) * 3);
-    buffer_start = mmap_addr + (sizeof(int) * 4);
+  num_of_prods = atoi(argv[1]);
+  num_of_cons  = atoi(argv[2]);
+  buffer_size  = atoi(argv[3]);
 
+  mutex = mmap(NULL, sizeof(struct cs1550_sem), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, 0, 0);
+  empty = mmap(NULL, sizeof(struct cs1550_sem), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, 0, 0);
+  full  = mmap(NULL, sizeof(struct cs1550_sem), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, 0, 0);
 
-    *num_of_prods = argv[1];
-    *num_of_cons  = argv[2];
-    *counter      = 0;
-    *next_num     = 0;
+  buffer_addr   = mmap(NULL, (sizeof(int) * buffer_size), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, 0, 0);
+  next_num_addr = mmap(NULL, sizeof(int), PROT_READ|PROT_WRITE, MAP_SHARED|MAP_ANONYMOUS, 0, 0);
 
-    buffer_size   = argv[3];
-  }
-  pthread_mutex_unlock(&mmap_lock);
+  *next_num_addr = 0;
+  buffer_end     = buffer_addr;
 
-  pthread_mutex_lock(&first_setup_lock);
-  if(is_producer == 0 && is_consumer == 0){
-    if(*num_of_prods > 0){
-      *num_of_prods = *num_of_prods - 1;
-      is_producer   = 1;
-    }
-    else{
-      if(*num_of_cons > 0){
-        *num_of_cons = *num_of_cons - 1;
-        is_consumer  = 1;
+  mutex->value = 1;
+  mutex->first = NULL;
+  mutex->last  = NULL;
+
+  empty->value = buffer_size;
+  empty->first = NULL;
+  empty->last  = NULL;
+
+  full->value  = 0;
+  full->first = NULL;
+  full->last  = NULL;
+
+  for(i = 0; i < num_of_prods; i++){
+    if(fork() == 0){
+      while(1){
+        down(empty);
+        down(mutex);
+
+        printf("Producer %d, produced %d \n", i, *next_num_addr);
+        *buffer_end = *next_num_addr;
+        buffer_end = buffer_end + 1;
+        *next_num_addr = *next_num_addr + 1;
+
+        up(mutex);
+        up(full);
       }
     }
   }
-  pthread_mutex_unlock(&first_setup_lock);
 
-  pthread_mutex_lock(&setup_lock);
-  if(*num_of_prods + *num_of_cons != 0){
-    fork();
-    is_producer = 0;
-    is_consumer = 0;
+  for(i = 0; i < num_of_cons; i++){
+    if(fork() == 0){
+      while(1){
+        down(full);
+        down(mutex);
 
-    if(*num_of_prods > 0){
-      *num_of_prods = *num_of_prods - 1;
-      is_producer   = 1;
-    }
-    else{
-      if(*num_of_cons > 0){
-        *num_of_cons = *num_of_cons - 1;
-        is_consumer  = 1;
-      }
-    }
-  }
-  pthread_mutex_unlock(&setup_lock);
-
-  while(1){
-    if(is_consumer == 1){
-      if(*counter == 0){
-        //syscall(down);
-      }
-
-      pthread_mutex_lock(&consumer_lock);
-
-      printf("%d was consumed.\n", *buffer_start);
-      for(i = 0; i < *counter; i++){
-        *buffer_start + i = *buffer_start + i + 1;
-      }
-      *counter = *counter - 1;
-
-      pthread_mutex_unlock(&consumer_lock);
-
-      if(*counter == 0){
-        //syscall(up)
-      }
-    }
-    else{
-      if(is_producer == 1){
-        if(*counter == buffer_size){
-          //syscall(down)
+        printf("Consumer %d, consumed %d \n", i, *buffer_addr);
+        for(j = 0; j < full->value; j++){
+          *(buffer_addr + j) = *(buffer_addr + j + 1);
         }
 
-        pthread_mutex_lock(&producer_lock);
-
-        printf("%d was created.\n", *next_num);
-        *(buffer_start + *counter) = *next_num;
-        *counter = *counter + 1;
-        *next_num = *next_num + 1;
-
-        pthread_mutex_unlock(&producer_lock);
-
-        if(*counter == buffer_size){
-          //syscall(up);
-        }
+        up(mutex);
+        up(empty);
       }
     }
   }
+  waitpid(-1, NULL, 0);
 }
 
 void up(struct cs1550_sem *sem){
-  syscall(_NR_cs1550_up, sem);
+  syscall(__NR_cs1550_up, sem);
 }
 
 void down(struct cs1550_sem *sem){
-  syscall(_NR_cs1550_down, sem);
+  syscall(__NR_cs1550_down, sem);
 }

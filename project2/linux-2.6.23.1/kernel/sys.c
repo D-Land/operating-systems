@@ -82,24 +82,18 @@ EXPORT_SYMBOL(overflowgid);
 #endif
 
 /*
- * Define Node Struct
+ * Define cs1550_node Struct
  */
 
-struct pq_node{
+struct cs1550_node{
   struct task_struct *task;
-
-  struct pq_node *next;
-};
-
-struct pq{
-  struct pq_node *first;
-  struct pq_node *last;
+  struct cs1550_node *next;
 };
 
 struct cs1550_sem{
   int value;
-
-  struct pq *queue;
+  struct cs1550_node *first;
+  struct cs1550_node *last;
 };
 
 /*
@@ -2380,7 +2374,7 @@ int orderly_poweroff(bool force)
 EXPORT_SYMBOL_GPL(orderly_poweroff);
 
 asmlinkage long sys_cs1550_up(struct cs1550_sem *sem){
-  struct pq_node *temp_node;
+  struct cs1550_node *new_node;
 
   DEFINE_SPINLOCK(sem_lock);
 
@@ -2389,18 +2383,18 @@ asmlinkage long sys_cs1550_up(struct cs1550_sem *sem){
   sem->value = sem->value + 1;
 
   if(sem->value < 0){
-    temp_node = sem->queue->first;
-    wake_up_process(temp_node->task);
-    sem->queue->first = sem->queue->first->next;
+    new_node = sem->first;
+    wake_up_process(new_node->task);
+    sem->first = sem->first->next;
 
-    kfree(temp_node);
+    kfree(new_node);
   }
+  spin_unlock(&sem_lock);
   return 0;
 }
 
 asmlinkage long sys_cs1550_down(struct cs1550_sem *sem){
-  void *ptr;
-  struct pq_node *node;
+  struct cs1550_node *new_node;
 
   DEFINE_SPINLOCK(sem_lock);
   spin_lock(&sem_lock);
@@ -2410,22 +2404,23 @@ asmlinkage long sys_cs1550_down(struct cs1550_sem *sem){
   if(sem->value < 0){
     set_current_state(TASK_INTERRUPTIBLE);
 
-    ptr = kmalloc(sizeof(struct pq_node), __GFP_REPEAT);
-    node = ptr;
-    node->task = current;
-    node->next = NULL;
+    new_node = (struct cs1550_node*) kmalloc(sizeof(struct cs1550_node), GFP_USER);
+    new_node->task = current;
+    new_node->next = NULL;
 
-    if(sem->queue->first == NULL){
-      //DOES THIS LINE MAKE SENSE?
-      sem->queue->first = sem->queue->last = node;
+    if(sem->first == NULL){
+      sem->first = new_node;
+      sem->last  = new_node;
     }
     else{
-      sem->queue->last->next = node;
-      sem->queue->last = sem->queue->last->next;
+      sem->last->next = new_node;
+      sem->last       = new_node;
     }
+    spin_unlock(&sem_lock);
     schedule();
   }
-
-  spin_unlock(&sem_lock);
+  else{
+    spin_unlock(&sem_lock);
+  }
   return 0;
 }
