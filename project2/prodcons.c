@@ -1,10 +1,33 @@
 // Andrew Land
 // Producer and Consumer Problem
 
+#include <sys/types.h>
 #include <sys/mman.h>
 #include <pthread.h>
+#include <linux/unistd.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <stdio.h>
+
+struct pq_node{
+  struct task_struct *task;
+
+  struct pq_node *next;
+};
+
+struct pq{
+  struct pq_node *first;
+  struct pq_node *last;
+};
+
+struct cs1550_sem{
+  int value;
+
+  struct pq *queue;
+};
+
+void up(struct cs1550_sem *);
+void down(struct cs1550_sem *);
 
 int main(int argc, char *argv[]){
   int  is_consumer;
@@ -127,5 +150,12 @@ int main(int argc, char *argv[]){
       }
     }
   }
+}
 
+void up(struct cs1550_sem *sem){
+  syscall(_NR_cs1550_up, sem);
+}
+
+void down(struct cs1550_sem *sem){
+  syscall(_NR_cs1550_down, sem);
 }
