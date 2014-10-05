@@ -82,6 +82,27 @@ EXPORT_SYMBOL(overflowgid);
 #endif
 
 /*
+ * Define Node Struct
+ */
+
+struct pq_node{
+  struct task_struct *task;
+
+  struct pq_node *next;
+};
+
+struct pq{
+  struct pq_node *first;
+  struct pq_node *last;
+};
+
+struct cs1550_sem{
+  int value;
+
+  struct pq *queue;
+};
+
+/*
  * the same as above, but for filesystems which can only store a 16-bit
  * UID and GID. as such, this is needed on all architectures
  */
@@ -2359,9 +2380,52 @@ int orderly_poweroff(bool force)
 EXPORT_SYMBOL_GPL(orderly_poweroff);
 
 asmlinkage long sys_cs1550_up(struct cs1550_sem *sem){
+  struct pq_node *temp_node;
 
+  DEFINE_SPINLOCK(sem_lock);
+
+  spin_lock(&sem_lock);
+
+  sem->value = sem->value + 1;
+
+  if(sem->value < 0){
+    temp_node = sem->queue->first;
+    wake_up_process(temp_node->task);
+    sem->queue->first = sem->queue->first->next;
+
+    kfree(temp_node);
+  }
+  return 0;
 }
 
 asmlinkage long sys_cs1550_down(struct cs1550_sem *sem){
+  void *ptr;
+  struct pq_node *node;
 
+  DEFINE_SPINLOCK(sem_lock);
+  spin_lock(&sem_lock);
+
+  sem->value = sem->value - 1;
+
+  if(sem->value < 0){
+    set_current_state(TASK_INTERRUPTIBLE);
+
+    ptr = kmalloc(sizeof(struct pq_node), __GFP_REPEAT);
+    node = ptr;
+    node->task = current;
+    node->next = NULL;
+
+    if(sem->queue->first == NULL){
+      //DOES THIS LINE MAKE SENSE?
+      sem->queue->first = sem->queue->last = node;
+    }
+    else{
+      sem->queue->last->next = node;
+      sem->queue->last = sem->queue->last->next;
+    }
+    schedule();
+  }
+
+  spin_unlock(&sem_lock);
+  return 0;
 }
