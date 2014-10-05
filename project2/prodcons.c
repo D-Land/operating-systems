@@ -4,6 +4,7 @@
 #include <sys/mman.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <stdio.h>
 
 int main(int argc, char *argv[]){
   int  is_consumer;
@@ -47,7 +48,7 @@ int main(int argc, char *argv[]){
     *counter      = 0;
     *next_num     = 0;
 
-    buffer_size   = arg[3];
+    buffer_size   = argv[3];
   }
   pthread_mutex_unlock(&mmap_lock);
 
@@ -67,7 +68,7 @@ int main(int argc, char *argv[]){
   pthread_mutex_unlock(&first_setup_lock);
 
   pthread_mutex_lock(&setup_lock);
-  if(num_of_prods + num_of_cons != 0){
+  if(*num_of_prods + *num_of_cons != 0){
     fork();
     is_producer = 0;
     is_consumer = 0;
@@ -93,9 +94,9 @@ int main(int argc, char *argv[]){
 
       pthread_mutex_lock(&consumer_lock);
 
-      printf("%d was consumed.\n", *bufferstart);
+      printf("%d was consumed.\n", *buffer_start);
       for(i = 0; i < *counter; i++){
-        *bufferstart + i = *bufferstart + i + 1;
+        *buffer_start + i = *buffer_start + i + 1;
       }
       *counter = *counter - 1;
 
@@ -114,7 +115,7 @@ int main(int argc, char *argv[]){
         pthread_mutex_lock(&producer_lock);
 
         printf("%d was created.\n", *next_num);
-        *(bufferstart + *count) = *next_num;
+        *(buffer_start + *counter) = *next_num;
         *counter = *counter + 1;
         *next_num = *next_num + 1;
 
