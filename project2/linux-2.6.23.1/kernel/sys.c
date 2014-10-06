@@ -2402,7 +2402,6 @@ asmlinkage long sys_cs1550_down(struct cs1550_sem *sem){
   sem->value = sem->value - 1;
 
   if(sem->value < 0){
-    set_current_state(TASK_INTERRUPTIBLE);
 
     new_node = (struct cs1550_node*) kmalloc(sizeof(struct cs1550_node), GFP_USER);
     new_node->task = current;
@@ -2416,6 +2415,7 @@ asmlinkage long sys_cs1550_down(struct cs1550_sem *sem){
       sem->last->next = new_node;
       sem->last       = new_node;
     }
+    set_current_state(TASK_INTERRUPTIBLE);
     spin_unlock(&sem_lock);
     schedule();
   }
