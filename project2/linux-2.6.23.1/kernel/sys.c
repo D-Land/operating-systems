@@ -2382,7 +2382,7 @@ asmlinkage long sys_cs1550_up(struct cs1550_sem *sem){
 
   sem->value = sem->value + 1;
 
-  if(sem->value < 0){
+  if(sem->value <= 0){
     new_node = sem->first;
     wake_up_process(new_node->task);
     sem->first = sem->first->next;
